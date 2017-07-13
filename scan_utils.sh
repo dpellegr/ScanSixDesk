@@ -1,18 +1,5 @@
 #!/bin/sh
 
-#################
-## Definitions ##
-#################
-
-export template_mask=template_ats2017_tune.mask
-export mask_prefix=ats2017
-export sixdesk_path=/afs/cern.ch/user/d/dpellegr/public/SixDesk/utilities/bash/
-
-# When changing the number of scanning parameters adapt also the line "make_mask_names mask_list ..." below
-
-export SCAN_X="$(seq -w 62.300 0.002 62.324)" # Qx
-export SCAN_Y="$(seq -w 62.300 0.002 62.324)" # Qy
-
 # Creates the names of the masks expanding all the passed list of parameters
 make_mask_names() {
   local _outvar=$1
@@ -40,7 +27,8 @@ make_mask_names() {
   done
   eval $_outvar='$_result'
 }
-make_mask_names mask_list "$SCAN_X" "$SCAN_Y"
+# EXAMPLE 
+# make_mask_names mask_list "$SCAN_X" "$SCAN_Y"
 
 # Get back the array of parameters extracting them from the mask name
 get_pars_from_mask_name() {

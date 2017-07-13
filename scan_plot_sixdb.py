@@ -3,6 +3,7 @@ import os
 import re
 import sys
 sys.path.append('/afs/cern.ch/project/sixtrack/SixDeskDB/')
+import pickle
 import sixdeskdb
 
 import numpy as np
@@ -19,6 +20,7 @@ from scipy.interpolate import griddata
 from datetime import datetime
 
 import contextlib
+
 @contextlib.contextmanager
 def nostdout():
   class DummyFile(object):
@@ -53,7 +55,7 @@ def study2da(study, func):
   print da
   if len(da)==0:
     return 0.0
-  return float(func(da)) # eg. np.amin(da) for min over angles
+  return float(func(da)) # eg. np.amin(da)
 
 def file2dic(study, mydic):
 # collects the data from the study files into a dictionary
@@ -90,14 +92,20 @@ def getWorkspace():
   return valueInFile('sixdeskenv', 'workspace')
 
 def getMaskPrefix():
-  return valueInFile('scan_definitions', 'mask_prefix')
+  return valueInFile('scan_definitionsi.sh', 'mask_prefix')
 
 ##################################################
 dco = {}
-for filename in glob.glob(getMaskPrefix()+'_*'):
-  if ".db" not in filename:
-    file2dic(filename, dco)
-
+archive="scan_"+getWorkspace()+".pkl"
+if os.path.isfile(archive):
+  with open(archive, 'rb') as handle:
+    dco = pickle.load(handle)
+else:
+  for filename in glob.glob(getMaskPrefix()+'_*'):
+    if ".db" not in filename:
+      file2dic(filename, dco)
+  with open(archive, 'wb') as handle:
+    pickle.dump(dco, handle, protocol=pickle.HIGHEST_PROTOCOL)
 out = dic2out(dco)
 
 #now plotting
@@ -120,12 +128,12 @@ x2, y2 = xx2[0], [row[0] for row in yy2]
 
 
 #rc('font',**{'family':'sans-serif','sans-serif':['Helvetica']})
-mpl.rcParams.update({'font.size': 20}) 
+mpl.rcParams.update({'font.size': 18}) 
 plt.rcParams.update({'mathtext.default': 'regular'})
 
-plt.title(r"ATS Optics; $\beta^*$=40 cm; Q'=15; I$_{MO}$=500 A;"+'\n'+r"$\varepsilon$=2.5 $\mu$m; I=1.25 $10^{11}$ e; X=150 $\mu$rad; Min DA.", fontsize=20, y=1.08)
-plt.xlabel("Wire Current [A]")
-plt.ylabel("Wire Separation [mm]")
+plt.title(r"LHC2017; $\beta^*$=40 cm; Q'=15; I$_{MO}$=500 A;"+'\n'+r"$\varepsilon$=2.5 $\mu$m; I=1.25 $10^{11}$ e; X=120 $\mu$rad; Min DA.", fontsize=16, y=1.08)
+plt.xlabel("$Q_x$")
+plt.ylabel("$Q_y$")
 
 plt.gca().yaxis.get_major_formatter().set_useOffset(False)
 plt.gca().xaxis.get_major_formatter().set_useOffset(False)
@@ -134,17 +142,17 @@ cf = plt.pcolormesh(x2,y2,z2, cmap=cm.RdBu)
 #levels = MaxNLocator(nbins=200).tick_values(z.min(), z.max())
 #cf = plt.contourf(x1,y1,z, cmap=cm.RdBu, levels=levels)
 minDA = 4.0
-maxDA = 8.0
+maxDA = 6.0
 plt.clim(minDA, maxDA)
 cbar = plt.colorbar(cf, ticks=np.linspace(minDA, maxDA, (maxDA-minDA)*2.+1))
 cbar.set_label('DA [$\sigma_{beam}$]', rotation=90)
 
 #add contour lines
-levels = [4.0, 5.0, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0]
+levels = [4.0, 4.5, 5.0, 5.3, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0]
 ct = plt.contour(x1, y1, z1, levels, colors='k', linewidths=3)
 plt.clabel(ct, colors = 'k', fmt = '%2.1f', fontsize=16)
 
-#plt.tight_layout()
+plt.tight_layout()
 plt.savefig(getWorkspace()+'_'+datetime.now().strftime("%Y%m%d")+'.pdf', dpi=300)
 plt.show()
 

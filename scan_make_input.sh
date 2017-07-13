@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ./scan_definitions
+source ./scan_definitions.sh
 
 #################
 
@@ -19,11 +19,8 @@ do
   cp mask/$template_mask mask/$mask.mask
   sed -i 's#%QX#'$x'#g' mask/$mask.mask
   sed -i 's#%QY#'$y'#g' mask/$mask.mask
-#  sed -i 's#%WIREAMPS#'$x'#g' mask/$mask.mask
-#  sed -i 's#%WIREDIST#'$y'#g' mask/$mask.mask
  
   sed -i 's/export LHCDescrip=.*/export LHCDescrip='$mask'/' sixdeskenv
-#  sed -i 's/export bunch_charge=.*/export bunch_charge='$z'e11/' sixdeskenv
  
   $sixdesk_path/set_env.sh -s #create study
   $sixdesk_path/mad6t.sh -c > /dev/null #check
