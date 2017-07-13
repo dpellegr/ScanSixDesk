@@ -19,7 +19,7 @@ Checks the outcomes with sixdb and resumbit in case of issues
 For plotting the scans
 
 **scan_input_to_DA.sh**
-Does all of the above automatically
+Calls all the previous scripts in an automatised way
 
 **scan_utils.sh**
 Some support functions, no need to look in there
