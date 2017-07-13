@@ -1,7 +1,7 @@
 
 # pass 1 to skip madx, 2 to skip sixtrack, 3 to skip check
 
-source ./sixdeskenv
+source ./sixdeskenv.sh
 
 entry_point=0
 if [ "$#" -ge "1" ]

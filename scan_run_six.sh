@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ./scan_definitions
+source ./scan_definitions.sh
 
 #################
 
