@@ -14,10 +14,9 @@ logfile="scan_input_to_DA.log"
 logmsg() {
   echo "$(date) $1" >> $logfile
 }
-
+echo "$(date) LOG FOR $workspace" > $logfile
 
 if [ $entry_point -lt 1 ]; then
-  rm -f $logfile
   logmsg "Make input - submitting madx"
   ./scan_make_input.sh
   sleep 10
