@@ -92,7 +92,7 @@ def getWorkspace():
   return valueInFile('sixdeskenv', 'workspace')
 
 def getMaskPrefix():
-  return valueInFile('scan_definitionsi.sh', 'mask_prefix')
+  return valueInFile('scan_definitions.sh', 'mask_prefix')
 
 ##################################################
 dco = {}
@@ -131,7 +131,7 @@ x2, y2 = xx2[0], [row[0] for row in yy2]
 mpl.rcParams.update({'font.size': 18}) 
 plt.rcParams.update({'mathtext.default': 'regular'})
 
-plt.title(r"LHC2017; $\beta^*$=40 cm; Q'=15; I$_{MO}$=500 A;"+'\n'+r"$\varepsilon$=2.5 $\mu$m; I=1.25 $10^{11}$ e; X=120 $\mu$rad; Min DA.", fontsize=16, y=1.08)
+plt.title(r"LHC2017; $\beta^*$=40 cm; Q'=15; I$_{MO}$=500 A;"+'\n'+r"$\varepsilon$=2.5 $\mu$m; I=1.25 $10^{11}$ e; X=150 $\mu$rad; Min DA.", fontsize=16, y=1.08)
 plt.xlabel("$Q_x$")
 plt.ylabel("$Q_y$")
 
@@ -141,14 +141,14 @@ plt.gca().xaxis.get_major_formatter().set_useOffset(False)
 cf = plt.pcolormesh(x2,y2,z2, cmap=cm.RdBu)
 #levels = MaxNLocator(nbins=200).tick_values(z.min(), z.max())
 #cf = plt.contourf(x1,y1,z, cmap=cm.RdBu, levels=levels)
-minDA = 4.0
-maxDA = 6.0
+minDA = 3.0
+maxDA = 7.0
 plt.clim(minDA, maxDA)
 cbar = plt.colorbar(cf, ticks=np.linspace(minDA, maxDA, (maxDA-minDA)*2.+1))
 cbar.set_label('DA [$\sigma_{beam}$]', rotation=90)
 
 #add contour lines
-levels = [4.0, 4.5, 5.0, 5.3, 5.5, 6.0, 6.5, 7.0, 7.5, 8.0]
+levels = [4.0, 5.0, 6.0, 7.0, 8.0]
 ct = plt.contour(x1, y1, z1, levels, colors='k', linewidths=3)
 plt.clabel(ct, colors = 'k', fmt = '%2.1f', fontsize=16)
 
