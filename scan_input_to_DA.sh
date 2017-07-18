@@ -14,9 +14,9 @@ logfile="scan_input_to_DA.log"
 logmsg() {
   echo "$(date) $1" >> $logfile
 }
-echo "$(date) LOG FOR $workspace" > $logfile
 
 if [ $entry_point -lt 1 ]; then
+  echo "$(date) LOG FOR $workspace" > $logfile
   logmsg "Make input - submitting madx"
   ./scan_make_input.sh
   sleep 10
@@ -39,7 +39,8 @@ fi
 if [ $entry_point -lt 3 ]; then
   while 
     logmsg "run_check"
-    cnt=$(./scan_run_check.sh)
+    ./scan_run_check.sh
+    cnt=$?
     sleep 10
     condor_release --all
     [ $cnt -gt 0 ]
