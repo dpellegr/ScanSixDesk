@@ -10,7 +10,7 @@ for mask in $mask_list
 do
   echo
   echo "####################################################"
-  echo "###   RUNNING SIXTRACK FOR STUDY: $mask"
+  echo "###   CHECKING STUDY: $mask"
   echo "####################################################"
   echo 
   
