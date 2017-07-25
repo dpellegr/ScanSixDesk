@@ -2,7 +2,7 @@ import glob
 import os
 import re
 import sys
-sys.path.append('/afs/cern.ch/project/sixtrack/SixDeskDB/')
+sys.path.append('/afs/cern.ch/project/sixtrack/SixDesk_utilities/pro/utilities/externals/SixDeskDB/')
 import pickle
 import sixdeskdb
 

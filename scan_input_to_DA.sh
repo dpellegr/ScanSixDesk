@@ -22,30 +22,35 @@ if [ $entry_point -lt 1 ]; then
   sleep 10
   condor_release --all
   logmsg "Waiting for Condor jobs"
+  echo "$sixdesk_path/condor_wait.sh -n "mad/$workspace/" -i 150"
   $sixdesk_path/condor_wait.sh -n "mad/$workspace/" -i 150
   logmsg "Madx Done"
 fi
 
 if [ $entry_point -lt 2 ]; then
   logmsg "Submitting Sixtrack"
-  ./scan_run_six.sh
+  ./scan_run_six.sh | tee scan_run_six.log
   sleep 10
   condor_release --all
   logmsg "Waiting for Condor jobs"
+  echo "$sixdesk_path/condor_wait.sh -n "run_six/$workspace/" -i 600"
   $sixdesk_path/condor_wait.sh -n "run_six/$workspace/" -i 600
   logmsg "run_six Done" >> scan_input_to_DA.log
 fi
 
 if [ $entry_point -lt 3 ]; then
+  i=0
   while 
     logmsg "run_check"
-    ./scan_run_check.sh
+    ./scan_run_check.sh | tee scan_run_check.${i}.log
     cnt=$?
     sleep 10
     condor_release --all
     [ $cnt -gt 0 ]
   do
+    ((i++))
     logmsg "Rerunning $cnt studies"
+    echo "$sixdesk_path/condor_wait.sh -n "run_six/$workspace/" -i 600"
     $sixdesk_path/condor_wait.sh -n "run_six/$workspace/" -i 600
     logmsg "Waiting for Condor jobs"
   done
