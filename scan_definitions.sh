@@ -15,5 +15,5 @@ export SCAN_Y="$(seq -w 60.285 0.002 60.335)" # Qy
 make_mask_names mask_list "$SCAN_X" "$SCAN_Y"
 
 export sixdesk_path=/afs/cern.ch/user/d/dpellegr/public/SixDesk/utilities/bash/
-export sixdb_path=/afs/cern.ch/project/sixtrack/SixDesk_utilities/pro/utilities/externals/SixDeskDB/
+export sixdb_path=/afs/cern.ch/project/sixtrack/SixDesk_utilities/dev/utilities/externals/SixDeskDB/
 
