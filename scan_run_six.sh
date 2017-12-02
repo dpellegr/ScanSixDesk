@@ -12,5 +12,5 @@ do
   echo "####################################################"
   echo 
   
-  $sixdesk_path/run_six.sh -d $mask -a
+  $sixdesk_path/run_six.sh -U -d $mask -a
 done
